@@ -47,7 +47,7 @@ public class boomtarTheGreat : MonoBehaviour
         StartCoroutine(DisableStuff());
         rule1 = rnd.Range(0, 6);
         do { rule2 = rnd.Range(0, 6); } while (rule2 == rule1);
-        Debug.LogFormat("[Boomtar the Great #{0}] The two rules that apply are rule {1} and rule {2}. In the table this becomes {3}.", moduleId, rule1 + 1, rule2 + 1, table[rule1 * 8 + rule2]);
+        Debug.LogFormat("[Boomtar the Great #{0}] The two rules that apply are rule {1} and rule {2}. In the table this becomes {3}.", moduleId, rule1 + 1, rule2 + 1, table[rule1 * 6 + rule2]);
         submitKeyword = submitWords[bomb.GetSerialNumberNumbers().Last()];
         Debug.LogFormat("[Boomtar the Great #{0}] The last digit of the serial number is {1}, so the submission keyword is {2}.", moduleId, bomb.GetSerialNumberNumbers().Last(), submitKeyword.ToLowerInvariant());
     }
@@ -70,7 +70,7 @@ public class boomtarTheGreat : MonoBehaviour
         else if (clipboardArray.Length == 2)
         {
             Debug.LogFormat("[Boomtar the Great #{0}] Submitted text: {1}", moduleId, clipboardArray[1]);
-            if (!SubmissionCheck(table[rule1 * 8 + rule2], clipboardArray[1]))
+            if (!SubmissionCheck(table[rule1 * 6 + rule2], clipboardArray[1]))
             {
                 module.HandleStrike();
                 Debug.LogFormat("[Boomtar the Great #{0}] That was invalid. Strike!", moduleId);
