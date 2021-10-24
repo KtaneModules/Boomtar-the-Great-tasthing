@@ -23,7 +23,7 @@ public class boomtarTheGreat : MonoBehaviour
     private string submitKeyword;
 
     private static readonly string[] submitWords = new string[10] { "PREDICATE", "OBFUSCATE", "DERIVE", "ANOMALIES", "WHISPERING", "PANDORA", "DECADENCE", "IMPERIAL", "AGGREGATE", "BALLAST" };
-    private static readonly string table = "BCADFEEAFCDBFBCAEDDFBECAEDFBCCDEBAF";
+    private static readonly string table = "BCADFEEAFCDBFBCAEDDFBECAAEDFBCCDEBAF";
     private static HashSet<string> validWords = new HashSet<string>();
     private bool cantInteract = true;
 
