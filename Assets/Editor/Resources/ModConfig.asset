@@ -18,6 +18,6 @@ MonoBehaviour:
     modding jam.\r\n\r\nModule idea and implementation by TasThing.\r\n\r\n[url=https://ktane.timwi.de/HTML/Boomtar%20the%20Great.html]Manual
     HTML[/url]\r\n[url=https://ktane.timwi.de/PDF/Boomtar%20the%20Great.pdf]Manual
     PDF[/url]"
-  version: 1.0.2
+  version: 1.0.3
   outputFolder: build
   previewImage: {fileID: 2800000, guid: 5ddb912059fa191458d2a40b9a0f9360, type: 3}

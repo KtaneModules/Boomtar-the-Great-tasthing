@@ -159,7 +159,8 @@ public class boomtarTheGreat : MonoBehaviour
             case 'B':
                 return clipboardText == (DateTime.Now.Hour < 12 ? "MORNING" : "AFTERNOON");
             case 'C':
-                return clipboardText == DateTime.Now.Month.ToString().ToUpperInvariant();
+                var months = new string[] { "JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER" };
+                return clipboardText == months[DateTime.Now.Month - 1];
             case 'D':
                 if (!bomb.GetSolvableModuleNames().Any(x => x != "Boomtar the Great"))
                     return clipboardText == "ALONE";
