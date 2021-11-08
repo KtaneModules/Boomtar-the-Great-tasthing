@@ -27,6 +27,7 @@ public class boomtarTheGreat : MonoBehaviour
     private static HashSet<string> validWords = new HashSet<string>();
     private bool cantInteract = true;
 
+    private bool TwitchPlaysActive;
     private static int moduleIdCounter = 1;
     private int moduleId;
     private bool moduleSolved;
@@ -35,7 +36,14 @@ public class boomtarTheGreat : MonoBehaviour
     {
         moduleId = moduleIdCounter++;
         module.OnActivate += delegate () { cantInteract = false; mainRef = audio.HandlePlaySoundAtTransformWithRef("start", transform, false); };
-        GetComponent<KMSelectable>().OnFocus += delegate () { FocusModule(); };
+        Action focus = delegate () { FocusModule(); };
+        var mainSelectable = GetComponent<KMSelectable>();
+        mainSelectable.OnFocus += focus;
+        module.OnActivate += delegate ()
+        {
+            if (TwitchPlaysActive)
+                mainSelectable.OnFocus -= focus;
+        };
 
         var allWords = wordList.allWords.Split(',');
         foreach (string word in allWords)
@@ -52,7 +60,7 @@ public class boomtarTheGreat : MonoBehaviour
         Debug.LogFormat("[Boomtar the Great #{0}] The last digit of the serial number is {1}, so the submission keyword is {2}.", moduleId, bomb.GetSerialNumberNumbers().Last(), submitKeyword.ToLowerInvariant());
     }
 
-    private void FocusModule()
+    private void FocusModule(string query = "")
     {
         if (cantInteract || moduleSolved)
             return;
@@ -61,7 +69,11 @@ public class boomtarTheGreat : MonoBehaviour
             mainRef.StopSound();
             mainRef = null;
         }
-        var clipboardText = GUIUtility.systemCopyBuffer.Trim().ToUpperInvariant();
+        var clipboardText = "";
+        if (string.IsNullOrEmpty(query))
+            clipboardText = GUIUtility.systemCopyBuffer.Trim().ToUpperInvariant();
+        else
+            clipboardText = query.Trim().ToUpperInvariant();
         var clipboardArray = clipboardText.Split(' ').ToArray();
         if (clipboardArray.Length != 1 && clipboardArray.Length != 2)
             StartCoroutine(Wait("bad word", 2.5f));
@@ -206,16 +218,19 @@ public class boomtarTheGreat : MonoBehaviour
 
     // Twitch Plays
 #pragma warning disable 414
-    private readonly string TwitchHelpMessage = "!{0} ";
+    private readonly string TwitchHelpMessage = "!{0} <any text> [Query that text into Boomtar]";
 #pragma warning restore 414
 
     private IEnumerator ProcessTwitchCommand(string input)
     {
         yield return null;
+        FocusModule(input);
     }
 
     private IEnumerator TwitchHandleForcedSolve()
     {
         yield return null;
+        var answer = validWords.First(x => SubmissionCheck(table[rule1 * 6 + rule2], x));
+        FocusModule(submitKeyword + " " + answer);
     }
 }
